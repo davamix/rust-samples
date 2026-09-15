@@ -8,13 +8,20 @@ fn main() {
 
     // add_task(&mut task_list);
     loop{
-        let mut option = String::new();
-        option = show_menu();
+        // let mut option = String::new();
+        // option = show_menu();
 
-        println!("Option: {}", option);
+        match show_menu().as_str().trim() {
+            "1" => {
+                add_task(&mut task_list);
+            },
+            "2" => {
+                show_tasks(&task_list);
+            },
+            "0" => {break;},
+            &_ => {continue;}
+        }
     }
-    
-
 }
 
 fn show_menu() -> String {
@@ -27,39 +34,21 @@ fn show_menu() -> String {
         let _ = io::stdin().read_line(&mut option);
 
         return option.to_string();
-        
-        // match io::stdin().read_line(&mut option) {
-        //     Ok(_value) => {
-        //         match option.as_str().trim() {
-        //             "1" => {
-        //                 println!("Selected option 1");
-        //                 continue;
-        //             },
-        //             "2" => {
-        //                 println!("Selected option 2");
-        //                 continue;
-        //             },
-        //             "0" => {break;},
-        //             &_ => {continue;}
-        //         }
-        //     },
-        //     Err(error) => {
-        //         println!("Error {}", error);
-        //     }
-        // }
-        
 }
 
 fn add_task(task_list:&mut Vec<String>){
+    println!("Leave empty and press Enter to go back to menu");
+
     loop {
-        print!("Write a new task: ");
+        print!("-> Task: ");
         let _ = io::stdout().flush();
 
         let mut task = String::new();
         match io::stdin().read_line(&mut task){
             Ok(_value) => {
-                // println!("{}", task);
-                // println!("{}", task.trim());
+                if task.trim().is_empty() {
+                    break;
+                }
 
                 //Claude session: `Error pushing trim() into a vector`
                 task_list.push(task.trim().to_string());
@@ -68,14 +57,14 @@ fn add_task(task_list:&mut Vec<String>){
                 println!("Cannot read line: {}", err);
             }
         }
-
-        show_tasks(&task_list);
     }
 }
 
 // Use slice &[String] instead of vectors Vec<String>
 // https://dev.to/sharmaprash/why-is-it-discouraged-to-accept-string-vec-or-box-as-function-arguments-in-rust-3g72
 fn show_tasks(task_items: &[String]) {
+    println!("## List of all tasks ##");
+
     for item in task_items {
         println!("{}", item);
     }

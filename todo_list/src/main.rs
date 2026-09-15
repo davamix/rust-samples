@@ -7,39 +7,47 @@ fn main() {
     // let mut task_list = Vec::new();
 
     // add_task(&mut task_list);
-    show_menu();
+    loop{
+        let mut option = String::new();
+        option = show_menu();
+
+        println!("Option: {}", option);
+    }
+    
 
 }
 
-fn show_menu(){
-    loop{
+fn show_menu() -> String {
         println!("1. Add new task");
         println!("2. Show tasks");
         println!("0. Exit");
         let _ = io::stdout().flush();
 
         let mut option = String::new();
-        match io::stdin().read_line(&mut option) {
-            Ok(_value) => {
-                match option.as_str().trim() {
-                    "1" => {
-                        println!("Selected option 1");
-                        continue;
-                    },
-                    "2" => {
-                        println!("Selected option 2");
-                        continue;
-                    },
-                    "0" => {break;},
-                    &_ => {continue;}
-                }
-            },
-            Err(error) => {
-                println!("Error {}", error);
-            }
-        }
+        let _ = io::stdin().read_line(&mut option);
+
+        return option.to_string();
         
-    }
+        // match io::stdin().read_line(&mut option) {
+        //     Ok(_value) => {
+        //         match option.as_str().trim() {
+        //             "1" => {
+        //                 println!("Selected option 1");
+        //                 continue;
+        //             },
+        //             "2" => {
+        //                 println!("Selected option 2");
+        //                 continue;
+        //             },
+        //             "0" => {break;},
+        //             &_ => {continue;}
+        //         }
+        //     },
+        //     Err(error) => {
+        //         println!("Error {}", error);
+        //     }
+        // }
+        
 }
 
 fn add_task(task_list:&mut Vec<String>){
